@@ -33,6 +33,10 @@ Keep this concise and specific to your implementation.
 
 Describe important changes/retained choices, operations affected, and time/memory trade-offs.
 
+- Changed Location storage from array to dictionary
+  - By changing the data structure to a dictionary, the operation of finding the location will go from an O(n) operation
+    to an O(1) operation.
+
 ## 3. Algorithms and adaptation
 
 Explain your route finder at a useful high level and how the travel-budget query adapts the same ideas.
