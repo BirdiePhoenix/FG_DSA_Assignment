@@ -10,9 +10,9 @@ Keep this concise and specific to your implementation.
     Elapsed: 417ms
     Checksum: 6,287,100
 - How are locations and connections represented in the baseline?
-  - Locations
+  - Locations:
     Locations are represented by an id, it's name, it's position and a location type.
-  - Connections
+  - Connections:
     Connections are being represented by a fromLocationId, a toLocationId and a travelCost.
   - Both the locations and the connections are being stored in arrays which are being initialized inside WorldData,
     and both the locations and the connection are being created inside WorldDatasetFactory.
@@ -21,13 +21,13 @@ Keep this concise and specific to your implementation.
       all to a list.
     
 - Which operations appear frequent?
-  - The comparing of location id and connection from id.
+  - The comparing of location id and connection fromId.
 - Which operation(s) do you predict may scale poorly?
   - Both the searching of location and connection may scale poorly, especially the searching for connection, since
     we always have to loop through the whole list. 
 - What will you investigate first?
   - The first thing I will investigate is if there is more efficient ways to store the data, since this may lead me
-    to wich search operation will be most efficient.
+    to which search operation will be most efficient.
 
 ## 2. Data representation
 
