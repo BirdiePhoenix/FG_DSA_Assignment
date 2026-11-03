@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace FrontierDispatch.Core
 {
     public static class SampleWorldFactory
@@ -13,6 +15,14 @@ namespace FrontierDispatch.Core
                 new Location(734, "North Gate", new WorldPosition(3f, 5f), "Gate"),
                 new Location(901, "Farm", new WorldPosition(-3f, 5f), "Farm")
             };
+
+            // var locations = new Dictionary<int, Location>();
+            // locations.Add(101, new Location(101, "Harbor", new WorldPosition(-4f, -1f), "Port"));
+            // locations.Add(205, new Location(205, "Relay", new WorldPosition(-1f, 2f), "Relay"));
+            // locations.Add(310, new Location(310, "Crossroads", new WorldPosition(1f, 0f), "Junction"));
+            // locations.Add(512, new Location(512, "Old Mine", new WorldPosition(4f, 2f), "Industry"));
+            // locations.Add(734, new Location(734, "North Gate", new WorldPosition(3f, 5f), "Gate"));
+            // locations.Add(901, new Location(901, "Farm", new WorldPosition(-3f, 5f), "Farm"));
 
             var connections = new[]
             {
