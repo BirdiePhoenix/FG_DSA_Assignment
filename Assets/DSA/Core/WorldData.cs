@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FrontierDispatch.Core
 {
@@ -12,11 +13,10 @@ namespace FrontierDispatch.Core
         {
             if (locations == null) throw new ArgumentNullException(nameof(locations));
             if (connections == null) throw new ArgumentNullException(nameof(connections));
-            _locations = new Dictionary<int, Location>();
+            _locations = new List<Location>(locations).ToDictionary(keySelector: l => l.Id, elementSelector: l => l);
             _connections = new List<Connection>(connections).ToArray();
         }
 
-        //public IReadOnlyList<Location> Locations => _locations;
         public IReadOnlyDictionary<int, Location> Locations => _locations;
         public IReadOnlyList<Connection> Connections => _connections;
     }

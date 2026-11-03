@@ -26,15 +26,18 @@ namespace FrontierDispatch.Core
 
         public Location? FindLocationById(int id)
         {
-            for (int i = 0; i < _world.Locations.Count; ++i)
-            {
-                Location location = _world.Locations[i];
-                if (location.Id == id)
-                {
-                    return location;
-                }
-            }
 
+            if(_world.Locations.ContainsKey(id))
+                return _world.Locations[id];
+            // for (int i = 0; i < _world.Locations.Count; ++i)
+            // {
+            //     Location location = _world.Locations[i];
+            //     if (location.Id == id)
+            //     {
+            //         return location;
+            //     }
+            // }
+            //
             return null;
         }
 
