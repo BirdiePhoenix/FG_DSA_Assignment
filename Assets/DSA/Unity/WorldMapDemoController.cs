@@ -19,15 +19,14 @@ namespace FrontierDispatch.Unity
             _world = SampleWorldFactory.CreateSmall();
             _queries = new WorldQueries(_world);
 
-            for (int i = 0; i < _world.Locations.Count; ++i)
+            foreach (KeyValuePair<int, Location> location in _world.Locations) 
             {
-                Location location = _world.Locations[i];
                 var node = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                node.name = $"{location.Id}_{location.Name}";
-                node.transform.position = new Vector3(location.Position.X, 0f, location.Position.Y);
+                node.name = $"{location.Value.Id}_{location.Value.Name}";
+                node.transform.position = new Vector3(location.Value.Position.X, 0f, location.Value.Position.Y);
                 node.transform.localScale = Vector3.one * 0.7f;
                 node.GetComponent<Renderer>().material.color = new Color(0.45f, 0.65f, 0.85f);
-                _views.Add(location.Id, node);
+                _views.Add(location.Value.Id, node);
             }
 
             for (int i = 0; i < _world.Connections.Count; ++i)
