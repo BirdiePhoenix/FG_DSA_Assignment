@@ -33,10 +33,17 @@ Keep this concise and specific to your implementation.
 
 Describe important changes/retained choices, operations affected, and time/memory trade-offs.
 
-- Changed Location storage from array to dictionary
+- Changed Location storage from list to dictionary
   - By changing the data structure to a dictionary, the operation of finding the location will go from an O(n) operation
     to an O(1) operation.
   - After implementing this the baseline workload, elapsed time went down to 398ms.
+- Changed Connection storage from list to dictionary with lists
+  - Like with the change of location storage, the operation goes from O(n) to O(1). By sorting all the connections into
+    lists of FromLocationId I've removed the need of looping through all the connections during lookup, instead there'll
+    be smaller amount of data to work with and potentially loop through.
+  - Here the elapsed time to look up went down to 0ms.
+  - One issue that can occure is if there's alot of connections the size of the dictionary will grow quite big, but I
+    decided that this will be worth the cost of making the lookup instant instead.
 
 ## 3. Algorithms and adaptation
 
