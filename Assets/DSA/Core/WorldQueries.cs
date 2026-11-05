@@ -26,34 +26,12 @@ namespace FrontierDispatch.Core
 
         public Location? FindLocationById(int id)
         {
-
-            if(_world.Locations.ContainsKey(id))
-                return _world.Locations[id];
-            // for (int i = 0; i < _world.Locations.Count; ++i)
-            // {
-            //     Location location = _world.Locations[i];
-            //     if (location.Id == id)
-            //     {
-            //         return location;
-            //     }
-            // }
-            //
-            return null;
+            return _world.Locations.ContainsKey(id) ? _world.Locations[id] : null;
         }
 
-        public IReadOnlyList<Connection> FindOutgoingConnections(int fromLocationId)
+        public IReadOnlyList<Connection>? FindOutgoingConnections(int fromLocationId)
         {
-            var result = new List<Connection>();
-            for (int i = 0; i < _world.Connections.Count; ++i)
-            {
-                Connection connection = _world.Connections[i];
-                if (connection.FromLocationId == fromLocationId)
-                {
-                    result.Add(connection);
-                }
-            }
-
-            return result;
+            return _world.Connections.ContainsKey(fromLocationId) ? _world.Connections[fromLocationId] : null;
         }
     }
 }

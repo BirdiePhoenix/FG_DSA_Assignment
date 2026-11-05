@@ -36,6 +36,7 @@ Describe important changes/retained choices, operations affected, and time/memor
 - Changed Location storage from array to dictionary
   - By changing the data structure to a dictionary, the operation of finding the location will go from an O(n) operation
     to an O(1) operation.
+  - After implementing this the baseline workload, elapsed time went down to 398ms.
 
 ## 3. Algorithms and adaptation
 
