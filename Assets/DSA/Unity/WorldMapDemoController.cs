@@ -29,21 +29,25 @@ namespace FrontierDispatch.Unity
                 _views.Add(location.Value.Id, node);
             }
 
-            for (int i = 0; i < _world.Connections.Count; ++i)
+            foreach (KeyValuePair<int, List<Connection>> connectionList in _world.Connections)
             {
-                Connection c = _world.Connections[i];
-                if (!_views.TryGetValue(c.FromLocationId, out GameObject? a) || !_views.TryGetValue(c.ToLocationId, out GameObject? b)) continue;
-                if (c.FromLocationId > c.ToLocationId) continue; // draw bidirectional road once
-                var road = new GameObject($"Road_{c.FromLocationId}_{c.ToLocationId}");
-                var lr = road.AddComponent<LineRenderer>();
-                lr.positionCount = 2;
-                lr.SetPosition(0, a.transform.position + Vector3.up * 0.05f);
-                lr.SetPosition(1, b.transform.position + Vector3.up * 0.05f);
-                lr.startWidth = 0.08f;
-                lr.endWidth = 0.08f;
-                lr.material = new Material(Shader.Find("Sprites/Default"));
-                lr.startColor = Color.gray;
-                lr.endColor = Color.gray;
+                List<Connection> currentConnections = connectionList.Value;
+                foreach (Connection connection in currentConnections) 
+                {
+                    if (!_views.TryGetValue(connection.FromLocationId, out GameObject? a) || !_views.TryGetValue(connection.ToLocationId, out GameObject? b)) 
+                        continue;
+                    if (connection.FromLocationId > connection.ToLocationId) continue; // draw bidirectional road once
+                    var road = new GameObject($"Road_{connection.FromLocationId}_{connection.ToLocationId}");
+                    var lr = road.AddComponent<LineRenderer>();
+                    lr.positionCount = 2;
+                    lr.SetPosition(0, a.transform.position + Vector3.up * 0.05f);
+                    lr.SetPosition(1, b.transform.position + Vector3.up * 0.05f);
+                    lr.startWidth = 0.08f;
+                    lr.endWidth = 0.08f;
+                    lr.material = new Material(Shader.Find("Sprites/Default"));
+                    lr.startColor = Color.gray;
+                    lr.endColor = Color.gray;
+                }
             }
         }
 
