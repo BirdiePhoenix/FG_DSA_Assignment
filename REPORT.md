@@ -47,6 +47,7 @@ Describe important changes/retained choices, operations affected, and time/memor
 
 ## 3. Algorithms and adaptation
 
+-MinHeap
 Explain your route finder at a useful high level and how the travel-budget query adapts the same ideas.
 
 ## 4. Complexity

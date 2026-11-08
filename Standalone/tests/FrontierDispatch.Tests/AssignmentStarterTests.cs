@@ -16,7 +16,8 @@ namespace FrontierDispatch.Tests
         // These tests document later assignment contracts without making the
         // untouched baseline red. Remove Ignore when you reach the named phase.
 
-        [Test, Ignore("Phase 3: enable when implementing the binary min-heap priority queue.")]
+        //[Test, Ignore("Phase 3: enable when implementing the binary min-heap priority queue.")]
+        [Test]
         public void PriorityQueue_EnqueueAndDequeue_ReturnsLowestPriorityFirst()
         {
             var queue = new MinPriorityQueue<string>();

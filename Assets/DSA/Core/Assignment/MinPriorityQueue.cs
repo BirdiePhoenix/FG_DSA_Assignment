@@ -30,8 +30,30 @@ namespace FrontierDispatch.Core
         /// </summary>
         public void Enqueue(T item, int priority)
         {
-            // TODO: insert the new entry and restore the min-heap invariant.
-            throw new NotImplementedException();
+            _heap.Add(new Entry(item, priority));
+            if (Count > 1) //If only 1 Entry, skip
+            {
+                SiftUp(Count-1);
+            }
+        }
+
+        private void SiftUp(int index)
+        {
+            while (true)
+            {
+                int parentIndex = ParentIndex(index);
+                
+                if(_heap[parentIndex].Priority <= _heap[index].Priority || index == 0) return;
+                
+                (_heap[parentIndex], _heap[index]) = (_heap[index], _heap[parentIndex]);
+
+                index = parentIndex;
+            }
+        }
+
+        private int ParentIndex(int index)
+        {
+            return (index - 1) / 2;
         }
 
         /// <summary>
@@ -42,8 +64,12 @@ namespace FrontierDispatch.Core
         /// </exception>
         public T Peek()
         {
-            // TODO: return the current minimum without changing the queue.
-            throw new NotImplementedException();
+            if (Count == 0)
+            {
+                throw new InvalidOperationException("The queue is empty!");
+            }
+            
+            return _heap[0].Item;
         }
 
         /// <summary>
@@ -54,8 +80,74 @@ namespace FrontierDispatch.Core
         /// </exception>
         public T Dequeue()
         {
-            // TODO: remove the minimum item and restore the min-heap invariant.
-            throw new NotImplementedException();
+            if (Count == 0)
+            {
+                throw new InvalidOperationException("Queue is empty!");
+            }
+            
+            T minItem = _heap[0].Item; //Saving min
+
+            if (Count > 1)
+            {
+                _heap[0] = _heap[Count - 1]; //Replacing min with last
+            }
+            _heap.RemoveAt(Count - 1);
+
+            if (Count > 1)
+            {
+                SiftDown(0);
+            }
+            return minItem;
+        }
+
+        private void SiftDown(int index)
+        {
+            while (true)
+            {
+                int leftIndex = LeftIndex(index);
+
+                if (leftIndex >= Count) //If no left child
+                {
+                    return;
+                }
+
+                int rightIndex = RightIndex(index);
+
+                if (_heap[index].Priority > _heap[leftIndex].Priority && rightIndex >= Count)
+                {   //If parent priority is bigger than left and no right
+                    (_heap[index], _heap[leftIndex]) = (_heap[leftIndex], _heap[index]);
+                    return;
+                }
+                else if (rightIndex >= Count)
+                {
+                    return;
+                }
+                
+                int smallestChild;
+
+                if (_heap[leftIndex].Priority <= _heap[rightIndex].Priority)
+                {
+                    (_heap[index], _heap[leftIndex]) = (_heap[leftIndex], _heap[index]);
+                    smallestChild = leftIndex;
+                }
+                else
+                {
+                    (_heap[index], _heap[rightIndex]) = (_heap[rightIndex], _heap[index]);
+                    smallestChild = rightIndex;
+                }
+
+                index = smallestChild;
+            }
+        }
+
+        private int LeftIndex(int index)
+        {
+            return 2 * index + 1;
+        }
+
+        private int RightIndex(int index)
+        {
+            return 2 * index + 2;
         }
 
         /// <summary>
