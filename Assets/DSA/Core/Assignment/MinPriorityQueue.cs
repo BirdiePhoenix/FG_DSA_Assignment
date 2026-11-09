@@ -114,7 +114,7 @@ namespace FrontierDispatch.Core
                 int rightIndex = RightIndex(index);
 
                 if (_heap[index].Priority > _heap[leftIndex].Priority && rightIndex >= Count)
-                {   //If parent priority is bigger than left and no right
+                {   //If parent priority is bigger than left and no right exists
                     (_heap[index], _heap[leftIndex]) = (_heap[leftIndex], _heap[index]);
                     return;
                 }

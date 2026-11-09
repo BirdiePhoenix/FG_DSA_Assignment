@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using FrontierDispatch.Core;
+using System.Collections.Generic;
 
 namespace FrontierDispatch.Tests
 {
@@ -25,6 +26,45 @@ namespace FrontierDispatch.Tests
             queue.Enqueue("cheap", 2);
             queue.Enqueue("medium", 5);
             Assert.That(queue.Dequeue(), Is.EqualTo("cheap"));
+        }
+
+        [Test]
+        public void PriorityQueue_EnqueueAndDequeue_SiftUpCorrect()
+        {
+            var queue = new MinPriorityQueue<string>();
+            queue.Enqueue("expensive", 8);
+            queue.Enqueue("cheap", 3);
+            queue.Enqueue("medium", 5);
+            queue.Enqueue("mid-cheap", 4);
+
+            var priorities = new List<string>();
+            while (queue.Count > 0)
+            {
+                priorities.Add(queue.Dequeue());
+            }
+            
+            Assert.That(priorities, Is.EqualTo(new[] { "cheap", "mid-cheap", "medium", "expensive" }));
+        }
+        
+        [Test]
+        public void PriorityQueue_EnqueueAndDequeue_SiftDownCorrect()
+        {
+            var queue = new MinPriorityQueue<string>();
+            queue.Enqueue("expensive", 15);
+            queue.Enqueue("medium", 10);
+            queue.Enqueue("cheap", 6);
+            queue.Enqueue("mid-expensive", 12);
+            queue.Enqueue("mid-cheap", 7);
+
+            queue.Dequeue();
+
+            var priorities = new List<string>();
+            while (queue.Count > 0)
+            {
+                priorities.Add(queue.Dequeue());
+            }
+            
+            Assert.That(priorities, Is.EqualTo(new[] { "mid-cheap", "mid-expensive", "medium", "expensive" }));
         }
 
         [Test, Ignore("Phase 4: enable when implementing Dijkstra route finding.")]
