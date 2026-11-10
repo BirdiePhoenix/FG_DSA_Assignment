@@ -122,21 +122,17 @@ namespace FrontierDispatch.Core
                 {
                     return;
                 }
-                
-                int smallestChild;
 
                 if (_heap[leftIndex].Priority <= _heap[rightIndex].Priority)
                 {
                     (_heap[index], _heap[leftIndex]) = (_heap[leftIndex], _heap[index]);
-                    smallestChild = leftIndex;
+                    index = leftIndex;
                 }
                 else
                 {
                     (_heap[index], _heap[rightIndex]) = (_heap[rightIndex], _heap[index]);
-                    smallestChild = rightIndex;
+                    index = rightIndex;
                 }
-
-                index = smallestChild;
             }
         }
 

@@ -29,7 +29,7 @@ namespace FrontierDispatch.Tests
         }
 
         [Test]
-		public void PriorityQueue_EnqueuDequeue_SameValuesReturnsFirstIn()
+		public void PriorityQueue_EnqueueDequeue_SameValuesReturnsValue()
 		{
 			var queue = new MinPriorityQueue<string>();
 			queue.Enqueue("A", 5);
@@ -38,6 +38,18 @@ namespace FrontierDispatch.Tests
 			queue.Enqueue("D", 1);
 			Assert.That(queue.Dequeue(), Is.EqualTo("C"));
 		}
+
+		[Test]
+		public void PriorityQueue_EnqueueDequeue_ReturnsNegativePriority()
+		{
+			var queue = new MinPriorityQueue<string>();
+			queue.Enqueue("Positive1", 6);
+			queue.Enqueue("Positive2", 3);
+			queue.Enqueue("Negative", -8);
+			queue.Enqueue("Positive3", 4);
+			Assert.That(queue.Dequeue(), Is.EqualTo("Negative"));
+		}
+
 
         [Test, Ignore("Phase 4: enable when implementing Dijkstra route finding.")]
         public void Dijkstra_StartEqualsGoal_ReturnsZeroCostRoute()
