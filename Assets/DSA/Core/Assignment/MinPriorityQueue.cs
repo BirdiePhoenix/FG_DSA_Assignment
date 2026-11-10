@@ -118,7 +118,7 @@ namespace FrontierDispatch.Core
                     (_heap[index], _heap[leftIndex]) = (_heap[leftIndex], _heap[index]);
                     return;
                 }
-                else if (rightIndex >= Count)
+                if (rightIndex >= Count)
                 {
                     return;
                 }
