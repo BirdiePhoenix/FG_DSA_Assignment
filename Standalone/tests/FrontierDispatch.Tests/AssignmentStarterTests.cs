@@ -45,9 +45,10 @@ namespace FrontierDispatch.Tests
 			var queue = new MinPriorityQueue<string>();
 			queue.Enqueue("Positive1", 6);
 			queue.Enqueue("Positive2", 3);
-			queue.Enqueue("Negative", -8);
+			queue.Enqueue("LowestNegative", -8);
+			queue.Enqueue("HighestNegative", -3);
 			queue.Enqueue("Positive3", 4);
-			Assert.That(queue.Dequeue(), Is.EqualTo("Negative"));
+			Assert.That(queue.Dequeue(), Is.EqualTo("LowestNegative"));
 		}
 
 
