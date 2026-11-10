@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using FrontierDispatch.Core;
+using System.Collections.Generic;
 
 namespace FrontierDispatch.Tests
 {
@@ -26,6 +27,29 @@ namespace FrontierDispatch.Tests
             queue.Enqueue("medium", 5);
             Assert.That(queue.Dequeue(), Is.EqualTo("cheap"));
         }
+
+        [Test]
+		public void PriorityQueue_EnqueueDequeue_SameValuesReturnsValue()
+		{
+			var queue = new MinPriorityQueue<string>();
+			queue.Enqueue("A", 5);
+			queue.Enqueue("B", 4);
+			queue.Enqueue("C", 1);
+			queue.Enqueue("D", 1);
+			Assert.That(queue.Dequeue(), Is.EqualTo("C"));
+		}
+
+		[Test]
+		public void PriorityQueue_EnqueueDequeue_ReturnsNegativePriority()
+		{
+			var queue = new MinPriorityQueue<string>();
+			queue.Enqueue("Positive1", 6);
+			queue.Enqueue("Positive2", 3);
+			queue.Enqueue("Negative", -8);
+			queue.Enqueue("Positive3", 4);
+			Assert.That(queue.Dequeue(), Is.EqualTo("Negative"));
+		}
+
 
         [Test, Ignore("Phase 4: enable when implementing Dijkstra route finding.")]
         public void Dijkstra_StartEqualsGoal_ReturnsZeroCostRoute()
