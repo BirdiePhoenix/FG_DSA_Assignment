@@ -61,8 +61,13 @@ Explain your route finder at a useful high level and how the travel-budget query
 | Route finding | | | |
 
 ## 5. Correctness and testing
-
+-Test SiftUp
 Important tests/edge cases and what they demonstrate.
+-MinPriorityQueue
+  -Enqueue and Dequeue:
+    -Implemented a test to see if inserting more elements with the same priority works. It does.
+    -Implemented PriorityQueue_EnqueueDequeue_ReturnsNegativePriority(), which checks if enqueueing elements with 
+    negative priorities will return the element with the lowest negative priority.
 
 ## 6. Performance investigation
 

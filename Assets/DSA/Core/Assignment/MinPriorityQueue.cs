@@ -83,29 +83,25 @@ namespace FrontierDispatch.Core
                 int rightIndex = RightIndex(index);
 
                 if (_heap[index].Priority > _heap[leftIndex].Priority && rightIndex >= Count)
-                {   //If parent priority is bigger than left and no right
+                {   //If parent priority is bigger than left and no right exists
                     (_heap[index], _heap[leftIndex]) = (_heap[leftIndex], _heap[index]);
                     return;
                 }
-                else if (rightIndex >= Count)
+                if (rightIndex >= Count)
                 {
                     return;
                 }
-                
-                int smallestChild;
 
                 if (_heap[leftIndex].Priority <= _heap[rightIndex].Priority)
                 {
                     (_heap[index], _heap[leftIndex]) = (_heap[leftIndex], _heap[index]);
-                    smallestChild = leftIndex;
+                    index = leftIndex;
                 }
                 else
                 {
                     (_heap[index], _heap[rightIndex]) = (_heap[rightIndex], _heap[index]);
-                    smallestChild = rightIndex;
+                    index = rightIndex;
                 }
-
-                index = smallestChild;
             }
         }
 
