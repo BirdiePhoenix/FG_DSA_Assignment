@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace FrontierDispatch.Core
 {
@@ -29,7 +30,39 @@ namespace FrontierDispatch.Core
         {
             // TODO: implement Dijkstra using your prepared world representation
             // and MinPriorityQueue<T>.
+
+            Dictionary<int, int> lowestCosts = new Dictionary<int, int>();
+            MinPriorityQueue<int> frontier = new MinPriorityQueue<int>();
+            HashSet<int> visited = new HashSet<int>();
+            int expandedCount = 0;
+
+            lowestCosts[startLocationId] = 0;
+            frontier.Enqueue(startLocationId, lowestCosts[startLocationId]);
             
+            while (frontier.Count > 0)
+            {
+                int currentId = frontier.Dequeue();
+                List<Connection> currentConnections = _world.Connections[currentId];
+
+                foreach (Connection connection in currentConnections) 
+                {
+                    if(visited.Contains(connection.ToLocationId)) continue;
+                    int currentBest = lowestCosts[currentId] + connection.TravelCost;
+                    if (currentBest < lowestCosts[connection.ToLocationId] ||
+                        lowestCosts[connection.ToLocationId] == 0)
+                    {
+                        lowestCosts[connection.ToLocationId] = currentBest;
+                    }
+                    
+                    frontier.Enqueue(connection.ToLocationId, lowestCosts[connection.ToLocationId]);
+                }
+                //Check if goal
+                //Add route list
+                visited.Add(currentId);
+                expandedCount++;
+            }
+            
+            //Return RouteResult
             
             throw new NotImplementedException();
         }

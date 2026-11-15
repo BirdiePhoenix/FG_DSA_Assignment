@@ -92,6 +92,12 @@ namespace FrontierDispatch.Core
                     return;
                 }
 
+                if (_heap[index].Priority <= _heap[leftIndex].Priority &&
+                    _heap[index].Priority <= _heap[rightIndex].Priority)
+                {
+                    return;
+                }
+
                 if (_heap[leftIndex].Priority <= _heap[rightIndex].Priority)
                 {
                     (_heap[index], _heap[leftIndex]) = (_heap[leftIndex], _heap[index]);
