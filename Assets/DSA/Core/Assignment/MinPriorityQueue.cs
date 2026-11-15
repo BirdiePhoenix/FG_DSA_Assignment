@@ -3,31 +3,12 @@ using System.Collections.Generic;
 
 namespace FrontierDispatch.Core
 {
-    // Assignment Phase 3. Implement as a binary min-heap.
-
-    /// <summary>
-    /// A minimum-priority queue implemented as a binary min-heap.
-    ///
-    /// Items with lower integer priority values should be returned before
-    /// items with higher priority values.
-    ///
-    /// This class is intentionally incomplete in the assignment starter.
-    /// </summary>
+    
     public sealed class MinPriorityQueue<T>
     {
-        // The list stores the physical representation of the binary heap.
-        // Your implementation is responsible for preserving the min-heap invariant.
         private readonly List<Entry> _heap = new List<Entry>();
-
-        /// <summary>
-        /// Number of items currently stored in the queue.
-        /// </summary>
         public int Count => _heap.Count;
 
-        /// <summary>
-        /// Adds an item with the supplied priority.
-        /// Lower priority values are removed before higher priority values.
-        /// </summary>
         public void Enqueue(T item, int priority)
         {
             _heap.Add(new Entry(item, priority));
@@ -56,12 +37,6 @@ namespace FrontierDispatch.Core
             return (index - 1) / 2;
         }
 
-        /// <summary>
-        /// Returns the minimum-priority item without removing it.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown when the queue is empty.
-        /// </exception>
         public T Peek()
         {
             if (Count == 0)
@@ -72,12 +47,6 @@ namespace FrontierDispatch.Core
             return _heap[0].Item;
         }
 
-        /// <summary>
-        /// Removes and returns the minimum-priority item.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown when the queue is empty.
-        /// </exception>
         public T Dequeue()
         {
             if (Count == 0)
@@ -150,9 +119,6 @@ namespace FrontierDispatch.Core
             return 2 * index + 2;
         }
 
-        /// <summary>
-        /// Stores one item together with the priority used by the heap.
-        /// </summary>
         private readonly struct Entry
         {
             public Entry(T item, int priority)
