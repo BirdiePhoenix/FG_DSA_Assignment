@@ -73,6 +73,12 @@ namespace FrontierDispatch.Tests
             Assert.That(result.LocationIds, Is.EqualTo(new[] { 901, 205, 101 }));
 		}
 
+		[Test]
+		public void Dijkstra_UnreachableLocation()
+		{
+			var finder = new Di
+		}
+
         [Test, Ignore("Phase 5: enable when implementing bounded reachability.")]
         public void Reachability_ZeroBudget_IncludesStartAtZeroCost()
         {
