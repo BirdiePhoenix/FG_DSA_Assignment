@@ -46,6 +46,12 @@ namespace FrontierDispatch.Core
             while (frontier.Count > 0)
             {
                 int currentId = frontier.Dequeue();
+                if (currentId == goalLocationId)
+                {
+                    locationIds.Add(currentId);
+                    totalCost = 0;
+                    return new RouteResult(true, locationIds, totalCost, expandedCount);
+                }
                 List<Connection> currentConnections = _world.Connections[currentId];
 
                 foreach (Connection connection in currentConnections) 
