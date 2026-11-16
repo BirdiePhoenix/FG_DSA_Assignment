@@ -32,9 +32,13 @@ namespace FrontierDispatch.Core
             // and MinPriorityQueue<T>.
 
             Dictionary<int, int> lowestCosts = new Dictionary<int, int>();
+            Dictionary<int, int> cameFrom = new Dictionary<int, int>();
             MinPriorityQueue<int> frontier = new MinPriorityQueue<int>();
             HashSet<int> visited = new HashSet<int>();
+            List<int> locationIds = new List<int>();
             int expandedCount = 0;
+            int totalCost = 0;
+            bool wasFound = false;
 
             lowestCosts[startLocationId] = 0;
             frontier.Enqueue(startLocationId, lowestCosts[startLocationId]);
@@ -48,23 +52,41 @@ namespace FrontierDispatch.Core
                 {
                     if(visited.Contains(connection.ToLocationId)) continue;
                     int currentBest = lowestCosts[currentId] + connection.TravelCost;
-                    if (currentBest < lowestCosts[connection.ToLocationId] ||
-                        lowestCosts[connection.ToLocationId] == 0)
+                    
+                    if (currentBest < lowestCosts[connection.ToLocationId])
                     {
                         lowestCosts[connection.ToLocationId] = currentBest;
+                        cameFrom[connection.ToLocationId] = currentId;
+                    }
+
+                    if (connection.ToLocationId == goalLocationId)
+                    {
+                        wasFound = true;
+                        totalCost = currentBest;
+                        break;
                     }
                     
                     frontier.Enqueue(connection.ToLocationId, lowestCosts[connection.ToLocationId]);
                 }
-                //Check if goal
-                //Add route list
+                
                 visited.Add(currentId);
                 expandedCount++;
+                if(wasFound) break;
+            }
+
+            int locationBacking = goalLocationId;
+            while (true)
+            {
+                if(!wasFound) break;
+                
+                locationIds.Add(locationBacking);
+                if(locationBacking == startLocationId) break;
+                
+                locationBacking = cameFrom[locationBacking];
             }
             
             //Return RouteResult
-            
-            throw new NotImplementedException();
+            return new RouteResult(wasFound, locationIds, totalCost, expandedCount);
         }
     }
 }
