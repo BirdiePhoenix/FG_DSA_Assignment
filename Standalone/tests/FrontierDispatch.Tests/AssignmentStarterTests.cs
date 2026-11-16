@@ -76,7 +76,9 @@ namespace FrontierDispatch.Tests
 		[Test]
 		public void Dijkstra_UnreachableLocation()
 		{
-			var finder = new Di
+			var finder = new DijkstraRouteFinder(SampleWorldFactory.CreateSmall());
+			RouteResult result = finder.FindRoute(101, 405);
+            Assert.That(result.Found, Is.False);
 		}
 
         [Test, Ignore("Phase 5: enable when implementing bounded reachability.")]
