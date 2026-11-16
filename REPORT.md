@@ -76,10 +76,12 @@ Record reproducible before/after measurements for loading/preparation, repeated 
 ## 7. Development reflection
 
 Describe one bug, wrong assumption, failed approach, or surprising result and how you investigated it.
+-Missed to return in MinPriorityQueueu if parent where lesser than or equal to it's children
 
 ## 8. Tools and AI assistance
 
 Briefly describe relevant assistance, if any.
+-Used chatgpt to ask about things I hadn't learned about, How to instantiate theMinPriorityQueue<T>
 
 ## 9. VG extension
 
