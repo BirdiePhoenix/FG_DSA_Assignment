@@ -63,6 +63,16 @@ namespace FrontierDispatch.Tests
             Assert.That(result.LocationIds, Is.EqualTo(new[] { 0 }));
         }
 
+		[Test]
+		public void Dijkstra_FromFirstToLast_FindShortestPath()
+		{
+			var finder = new DijkstraRouteFinder(SampleWorldFactory.CreateSmall());
+            RouteResult result = finder.FindRoute(101, 901);
+            Assert.That(result.Found, Is.True);
+			Assert.That(result.TotalCost, Is.EqualTo(9));
+            Assert.That(result.LocationIds, Is.EqualTo(new[] { 901, 205, 101 }));
+		}
+
         [Test, Ignore("Phase 5: enable when implementing bounded reachability.")]
         public void Reachability_ZeroBudget_IncludesStartAtZeroCost()
         {

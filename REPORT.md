@@ -77,6 +77,9 @@ Record reproducible before/after measurements for loading/preparation, repeated 
 
 Describe one bug, wrong assumption, failed approach, or surprising result and how you investigated it.
 -Missed to return in MinPriorityQueueu if parent where lesser than or equal to it's children
+-When testing Dijsktra, it couldn't find the id inside the dictionary (101). = used wrong class
+  (WorldDatasetFactory/SampleWorldFactory)
+-When testing Dijsktra, it couldn't find the id inside the dictionary (205)
 
 ## 8. Tools and AI assistance
 

@@ -52,14 +52,17 @@ namespace FrontierDispatch.Core
                     totalCost = 0;
                     return new RouteResult(true, locationIds, totalCost, expandedCount);
                 }
+                
                 List<Connection> currentConnections = _world.Connections[currentId];
 
                 foreach (Connection connection in currentConnections) 
                 {
                     if(visited.Contains(connection.ToLocationId)) continue;
                     int currentBest = lowestCosts[currentId] + connection.TravelCost;
+                    lowestCosts[connection.ToLocationId] = 0;
                     
-                    if (currentBest < lowestCosts[connection.ToLocationId])
+                    if (currentBest < lowestCosts[connection.ToLocationId] || 
+                        lowestCosts[connection.ToLocationId] == 0)
                     {
                         lowestCosts[connection.ToLocationId] = currentBest;
                         cameFrom[connection.ToLocationId] = currentId;
