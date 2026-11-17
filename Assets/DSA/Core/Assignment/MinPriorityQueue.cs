@@ -37,14 +37,14 @@ namespace FrontierDispatch.Core
             return (index - 1) / 2;
         }
 
-        public T Peek()
+        public Entry Peek()
         {
             if (Count == 0)
             {
                 throw new InvalidOperationException("The queue is empty!");
             }
             
-            return _heap[0].Item;
+            return _heap[0];
         }
 
         public T Dequeue()
@@ -121,7 +121,7 @@ namespace FrontierDispatch.Core
             return 2 * index + 2;
         }
 
-        private readonly struct Entry
+        public readonly struct Entry
         {
             public Entry(T item, int priority)
             {
