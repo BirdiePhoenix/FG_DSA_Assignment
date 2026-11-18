@@ -81,8 +81,9 @@ namespace FrontierDispatch.Tests
             Assert.That(result.Found, Is.False);
 		}
 
-        [Test, Ignore("Phase 5: enable when implementing bounded reachability.")]
-        public void Reachability_ZeroBudget_IncludesStartAtZeroCost()
+        //[Test, Ignore("Phase 5: enable when implementing bounded reachability.")]
+		[Test] 
+        public void Reachability_ZeroBudget_IncludesStartAtZeroCost() 
         {
             var query = new ReachabilityQuery(WorldDatasetFactory.CreateSmall());
             var result = query.FindReachable(0, 0);
