@@ -52,7 +52,8 @@ namespace FrontierDispatch.Tests
 		}
 
 
-        [Test, Ignore("Phase 4: enable when implementing Dijkstra route finding.")]
+        //[Test, Ignore("Phase 4: enable when implementing Dijkstra route finding.")]
+        [Test]
         public void Dijkstra_StartEqualsGoal_ReturnsZeroCostRoute()
         {
             var finder = new DijkstraRouteFinder(WorldDatasetFactory.CreateSmall());
@@ -61,6 +62,24 @@ namespace FrontierDispatch.Tests
             Assert.That(result.TotalCost, Is.EqualTo(0));
             Assert.That(result.LocationIds, Is.EqualTo(new[] { 0 }));
         }
+
+		[Test]
+		public void Dijkstra_FromFirstToLast_FindShortestPath()
+		{
+			var finder = new DijkstraRouteFinder(SampleWorldFactory.CreateSmall());
+            RouteResult result = finder.FindRoute(101, 901);
+            Assert.That(result.Found, Is.True);
+			Assert.That(result.TotalCost, Is.EqualTo(9));
+            Assert.That(result.LocationIds, Is.EqualTo(new[] { 901, 205, 101 }));
+		}
+
+		[Test]
+		public void Dijkstra_UnreachableLocation()
+		{
+			var finder = new DijkstraRouteFinder(SampleWorldFactory.CreateSmall());
+			RouteResult result = finder.FindRoute(101, 405);
+            Assert.That(result.Found, Is.False);
+		}
 
         [Test, Ignore("Phase 5: enable when implementing bounded reachability.")]
         public void Reachability_ZeroBudget_IncludesStartAtZeroCost()
