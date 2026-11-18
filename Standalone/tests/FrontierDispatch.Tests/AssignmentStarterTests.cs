@@ -70,7 +70,7 @@ namespace FrontierDispatch.Tests
             RouteResult result = finder.FindRoute(101, 901);
             Assert.That(result.Found, Is.True);
 			Assert.That(result.TotalCost, Is.EqualTo(9));
-            Assert.That(result.LocationIds, Is.EqualTo(new[] { 901, 205, 101 }));
+            Assert.That(result.LocationIds, Is.EqualTo(new[] { 101, 205, 901 }));
 		}
 
 		[Test]

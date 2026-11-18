@@ -77,6 +77,7 @@ namespace FrontierDispatch.Core
                     
                 locationBacking = cameFrom[locationBacking];
             }
+            locationIds.Reverse();
 
             return locationIds;
         }
