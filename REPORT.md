@@ -72,6 +72,7 @@ negative priorities will return the element with the lowest negative priority.
 ## 6. Performance investigation
 
 Record reproducible before/after measurements for loading/preparation, repeated runtime work, and relevant allocation behavior. Explain what changed and why.
+-Elapsed world time: 1ms / 3ms
 
 ## 7. Development reflection
 
