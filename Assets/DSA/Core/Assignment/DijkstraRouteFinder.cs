@@ -28,33 +28,34 @@ namespace FrontierDispatch.Core
             while (frontier.Count > 0)
             {
                 MinPriorityQueue<int>.Entry entry = frontier.Dequeue();
-                
+                int entryId = entry.Item;
 
-                if (!lowestCosts.TryGetValue(entry.Item, out int bestCost) || entry.Priority != bestCost)
+                if (!lowestCosts.TryGetValue(entryId, out int bestCost) || entry.Priority != bestCost)
                 {
                     continue;
                 }
                 
                 expandedCount++;
                 
-                if (entry.Item == goalLocationId)
+                if (entryId == goalLocationId)
                 {
                     locationIds = AddRoute(cameFrom, startLocationId, goalLocationId);
                     currentBest = lowestCosts[goalLocationId];
                     return new RouteResult(true, locationIds, currentBest, expandedCount);
                 }
                 
-                List<Connection> currentConnections = _world.Connections[entry.Item];
+                List<Connection> currentConnections = _world.Connections[entryId];
 
                 foreach (Connection connection in currentConnections) 
                 {
-                    currentBest = lowestCosts[entry.Item] + connection.TravelCost;
+                    currentBest = lowestCosts[entryId] + connection.TravelCost;
+                    int locationId = connection.ToLocationId;
                     
-                    if (!lowestCosts.TryGetValue(connection.ToLocationId, out int known) || currentBest < known)
+                    if (!lowestCosts.TryGetValue(locationId, out int known) || currentBest < known)
                     {
-                        lowestCosts[connection.ToLocationId] = currentBest;
-                        cameFrom[connection.ToLocationId] = entry.Item;
-                        frontier.Enqueue(connection.ToLocationId, lowestCosts[connection.ToLocationId]);
+                        lowestCosts[locationId] = currentBest;
+                        cameFrom[locationId] = entryId;
+                        frontier.Enqueue(locationId, lowestCosts[locationId]);
                     }
                 }
             }

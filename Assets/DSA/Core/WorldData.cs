@@ -26,6 +26,8 @@ namespace FrontierDispatch.Core
                 {
                     _connections.Add(connection.FromLocationId, new List<Connection>());
                 }
+
+                Connections.TryGetValue(connection.FromLocationId, out var connectionList);
                 
                 _connections[connection.FromLocationId].Add(connection);
             }

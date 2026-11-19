@@ -25,22 +25,24 @@ namespace FrontierDispatch.Core
             while (frontier.Count > 0) 
             {
                 MinPriorityQueue<int>.Entry entry = frontier.Dequeue();
+                int entryId = entry.Item;
                 
-                if ( entry.Priority != lowestCosts[entry.Item])
+                if ( entry.Priority != lowestCosts[entryId])
                 {
                     continue;
                 }
-                List<Connection> currentConnections = _world.Connections[entry.Item];
+                List<Connection> currentConnections = _world.Connections[entryId];
 
                 foreach (Connection connection in currentConnections) 
                 {
-                    int currentBest = lowestCosts[entry.Item] + connection.TravelCost;
+                    int currentBest = lowestCosts[entryId] + connection.TravelCost;
+                    int locationId = connection.ToLocationId;
                     
                     if (currentBest <= maxTravelCost && 
-                        (!lowestCosts.TryGetValue(connection.ToLocationId, out int known) || currentBest < known))
+                        (!lowestCosts.TryGetValue(locationId, out int known) || currentBest < known))
                     {
-                        lowestCosts[connection.ToLocationId] = currentBest;
-                        frontier.Enqueue(connection.ToLocationId, lowestCosts[connection.ToLocationId]);
+                        lowestCosts[locationId] = currentBest;
+                        frontier.Enqueue(locationId, lowestCosts[locationId]);
                     }
                 }
             }
