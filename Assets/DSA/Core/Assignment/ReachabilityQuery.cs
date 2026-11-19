@@ -41,6 +41,7 @@ namespace FrontierDispatch.Core
         {
             Dictionary<int, int> reachableLocations = new Dictionary<int, int>();
             Stack<int> locationsToSearch = new Stack<int>();
+            HashSet<int> visited = new HashSet<int>();
             locationsToSearch.Push(startLocationId);
             if (!_world.Locations.TryGetValue(startLocationId, out var value) || maxTravelCost == 0)
             {
@@ -51,21 +52,24 @@ namespace FrontierDispatch.Core
             while (locationsToSearch.Count > 0)
             {
                 int currentId = locationsToSearch.Pop();
+                if(visited.TryGetValue(currentId, out var actualValue)) continue;
                 List<Connection> connections = _world.Connections[currentId];
-
+            
                 foreach (Connection connection in connections)
                 {
                     int cheapestResult = FindRoute(currentId, connection.ToLocationId, maxTravelCost);
-
-                    if (cheapestResult <= maxTravelCost)
+            
+                    if (cheapestResult <= maxTravelCost && connection.TravelCost < reachableLocations[connection.ToLocationId])
                     {
                         int id = connection.ToLocationId;
                         reachableLocations[id] = cheapestResult;
                         locationsToSearch.Push(id);
                     }
                 }
+            
+                visited.Add(currentId);
             }
-
+            
             return reachableLocations;
         }
         
@@ -74,7 +78,6 @@ namespace FrontierDispatch.Core
             Dictionary<int, int> lowestCosts = new Dictionary<int, int>();
             MinPriorityQueue<int> frontier = new MinPriorityQueue<int>();
             HashSet<int> visited = new HashSet<int>();
-            int expandedCount = 0;
             int currentBest = 0;
 
             lowestCosts[startLocationId] = 0;
@@ -91,8 +94,6 @@ namespace FrontierDispatch.Core
                     continue;
                 }
                 
-                expandedCount++;
-                
                 if (currentId == goalLocationId)
                 {
                     currentBest = lowestCosts[goalLocationId];
@@ -103,7 +104,7 @@ namespace FrontierDispatch.Core
 
                 foreach (Connection connection in currentConnections) 
                 {
-                    if(visited.Contains(connection.ToLocationId)) continue;
+                    if(visited.TryGetValue(connection.ToLocationId, out var value)) continue;
                     currentBest = lowestCosts[currentId] + connection.TravelCost;
                     
                     if (!lowestCosts.TryGetValue(connection.ToLocationId, out int known) || currentBest < known)

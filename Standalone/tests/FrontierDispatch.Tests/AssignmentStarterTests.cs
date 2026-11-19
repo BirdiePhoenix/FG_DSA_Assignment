@@ -90,5 +90,13 @@ namespace FrontierDispatch.Tests
             Assert.That(result.ContainsKey(0), Is.True);
             Assert.That(result[0], Is.EqualTo(0));
         }
+
+		[Test]
+		public void Reachability_IncludesRightValues()
+		{
+			var query = new ReachabilityQuery(WorldDatasetFactory.CreateSmall());
+			var result = query.FindReachable(310, 10); 
+			Assert.That(result, Is.EqualTo(new[] { {310, 0}, {} }));
+		}
     }
 }

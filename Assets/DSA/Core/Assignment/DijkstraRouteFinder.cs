@@ -49,7 +49,7 @@ namespace FrontierDispatch.Core
 
                 foreach (Connection connection in currentConnections) 
                 {
-                    if(visited.Contains(connection.ToLocationId)) continue;
+                    if(visited.TryGetValue(connection.ToLocationId, out var value)) continue;
                     currentBest = lowestCosts[currentId] + connection.TravelCost;
                     
                     if (!lowestCosts.TryGetValue(connection.ToLocationId, out int known) || currentBest < known)

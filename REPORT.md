@@ -42,7 +42,7 @@ Describe important changes/retained choices, operations affected, and time/memor
     lists of FromLocationId I've removed the need of looping through all the connections during lookup, instead there'll
     be smaller amount of data to work with and potentially loop through.
   - Here the elapsed time to look up went down to 0ms.
-  - One issue that can occure is if there's alot of connections the size of the dictionary will grow quite big, but I
+  - One issue that can occure is if there's alot of connections, the size of the dictionary will grow quite big, but I
     decided that this will be worth the cost of making the lookup instant instead.
 
 ## 3. Algorithms and adaptation
