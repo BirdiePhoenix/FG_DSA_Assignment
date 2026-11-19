@@ -25,7 +25,7 @@ namespace FrontierDispatch.Tests
             queue.Enqueue("expensive", 9);
             queue.Enqueue("cheap", 2);
             queue.Enqueue("medium", 5);
-            Assert.That(queue.Dequeue(), Is.EqualTo("cheap"));
+            Assert.That(queue.Dequeue().Item, Is.EqualTo("cheap"));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace FrontierDispatch.Tests
 			queue.Enqueue("B", 4);
 			queue.Enqueue("C", 1);
 			queue.Enqueue("D", 1);
-			Assert.That(queue.Dequeue(), Is.EqualTo("C"));
+			Assert.That(queue.Dequeue().Item, Is.EqualTo("C"));
 		}
 
 		[Test]
@@ -48,7 +48,7 @@ namespace FrontierDispatch.Tests
 			queue.Enqueue("LowestNegative", -8);
 			queue.Enqueue("HighestNegative", -3);
 			queue.Enqueue("Positive3", 4);
-			Assert.That(queue.Dequeue(), Is.EqualTo("LowestNegative"));
+			Assert.That(queue.Dequeue().Item, Is.EqualTo("LowestNegative"));
 		}
 
 
@@ -81,7 +81,6 @@ namespace FrontierDispatch.Tests
             Assert.That(result.Found, Is.False);
 		}
 
-        //[Test, Ignore("Phase 5: enable when implementing bounded reachability.")]
 		[Test] 
         public void Reachability_ZeroBudget_IncludesStartAtZeroCost() 
         {
@@ -94,9 +93,17 @@ namespace FrontierDispatch.Tests
 		[Test]
 		public void Reachability_IncludesRightValues()
 		{
-			var query = new ReachabilityQuery(WorldDatasetFactory.CreateSmall());
+			var query = new ReachabilityQuery(SampleWorldFactory.CreateSmall());
 			var result = query.FindReachable(310, 10); 
-			Assert.That(result, Is.EqualTo(new[] { {310, 0}, {} }));
+			Assert.That(result.Count.Equals(6));
+		}
+
+		[Test]
+		public void Reachability_IncludesRightValues2()
+		{
+			var query = new ReachabilityQuery(SampleWorldFactory.CreateSmall());
+			var secondResult = query.FindReachable(901, 8); 
+			Assert.That(secondResult.Count, Is.EqualTo(4));
 		}
     }
 }

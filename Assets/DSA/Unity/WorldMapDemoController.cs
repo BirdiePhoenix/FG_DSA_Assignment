@@ -19,35 +19,32 @@ namespace FrontierDispatch.Unity
             _world = SampleWorldFactory.CreateSmall();
             _queries = new WorldQueries(_world);
 
-            foreach (KeyValuePair<int, Location> location in _world.Locations) 
+            for (int i = 0; i < _world.Locations.Count; ++i)
             {
+                Location location = _world.Locations[i];
                 var node = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                node.name = $"{location.Value.Id}_{location.Value.Name}";
-                node.transform.position = new Vector3(location.Value.Position.X, 0f, location.Value.Position.Y);
+                node.name = $"{location.Id}_{location.Name}";
+                node.transform.position = new Vector3(location.Position.X, 0f, location.Position.Y);
                 node.transform.localScale = Vector3.one * 0.7f;
                 node.GetComponent<Renderer>().material.color = new Color(0.45f, 0.65f, 0.85f);
-                _views.Add(location.Value.Id, node);
+                _views.Add(location.Id, node);
             }
 
-            foreach (KeyValuePair<int, List<Connection>> connectionList in _world.Connections)
+            for (int i = 0; i < _world.Connections.Count; ++i)
             {
-                List<Connection> currentConnections = connectionList.Value;
-                foreach (Connection connection in currentConnections) 
-                {
-                    if (!_views.TryGetValue(connection.FromLocationId, out GameObject? a) || !_views.TryGetValue(connection.ToLocationId, out GameObject? b)) 
-                        continue;
-                    if (connection.FromLocationId > connection.ToLocationId) continue; // draw bidirectional road once
-                    var road = new GameObject($"Road_{connection.FromLocationId}_{connection.ToLocationId}");
-                    var lr = road.AddComponent<LineRenderer>();
-                    lr.positionCount = 2;
-                    lr.SetPosition(0, a.transform.position + Vector3.up * 0.05f);
-                    lr.SetPosition(1, b.transform.position + Vector3.up * 0.05f);
-                    lr.startWidth = 0.08f;
-                    lr.endWidth = 0.08f;
-                    lr.material = new Material(Shader.Find("Sprites/Default"));
-                    lr.startColor = Color.gray;
-                    lr.endColor = Color.gray;
-                }
+                Connection c = _world.Connections[i];
+                if (!_views.TryGetValue(c.FromLocationId, out GameObject? a) || !_views.TryGetValue(c.ToLocationId, out GameObject? b)) continue;
+                if (c.FromLocationId > c.ToLocationId) continue; // draw bidirectional road once
+                var road = new GameObject($"Road_{c.FromLocationId}_{c.ToLocationId}");
+                var lr = road.AddComponent<LineRenderer>();
+                lr.positionCount = 2;
+                lr.SetPosition(0, a.transform.position + Vector3.up * 0.05f);
+                lr.SetPosition(1, b.transform.position + Vector3.up * 0.05f);
+                lr.startWidth = 0.08f;
+                lr.endWidth = 0.08f;
+                lr.material = new Material(Shader.Find("Sprites/Default"));
+                lr.startColor = Color.gray;
+                lr.endColor = Color.gray;
             }
         }
 

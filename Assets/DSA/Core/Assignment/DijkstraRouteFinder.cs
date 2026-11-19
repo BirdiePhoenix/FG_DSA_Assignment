@@ -18,7 +18,6 @@ namespace FrontierDispatch.Core
             Dictionary<int, int> lowestCosts = new Dictionary<int, int>();
             Dictionary<int, int> cameFrom = new Dictionary<int, int>();
             MinPriorityQueue<int> frontier = new MinPriorityQueue<int>();
-            HashSet<int> visited = new HashSet<int>();
             List<int> locationIds = new List<int>();
             int expandedCount = 0;
             int currentBest = 0;
@@ -28,39 +27,36 @@ namespace FrontierDispatch.Core
             
             while (frontier.Count > 0)
             {
-                int lastBestCost = frontier.Peek().Priority;
-                int currentId = frontier.Dequeue();
+                MinPriorityQueue<int>.Entry entry = frontier.Dequeue();
+                
 
-                if (!lowestCosts.TryGetValue(currentId, out int bestCost) || lastBestCost != bestCost)
+                if (!lowestCosts.TryGetValue(entry.Item, out int bestCost) || entry.Priority != bestCost)
                 {
                     continue;
                 }
                 
                 expandedCount++;
                 
-                if (currentId == goalLocationId)
+                if (entry.Item == goalLocationId)
                 {
                     locationIds = AddRoute(cameFrom, startLocationId, goalLocationId);
                     currentBest = lowestCosts[goalLocationId];
                     return new RouteResult(true, locationIds, currentBest, expandedCount);
                 }
                 
-                List<Connection> currentConnections = _world.Connections[currentId];
+                List<Connection> currentConnections = _world.Connections[entry.Item];
 
                 foreach (Connection connection in currentConnections) 
                 {
-                    if(visited.TryGetValue(connection.ToLocationId, out var value)) continue;
-                    currentBest = lowestCosts[currentId] + connection.TravelCost;
+                    currentBest = lowestCosts[entry.Item] + connection.TravelCost;
                     
                     if (!lowestCosts.TryGetValue(connection.ToLocationId, out int known) || currentBest < known)
                     {
                         lowestCosts[connection.ToLocationId] = currentBest;
-                        cameFrom[connection.ToLocationId] = currentId;
+                        cameFrom[connection.ToLocationId] = entry.Item;
                         frontier.Enqueue(connection.ToLocationId, lowestCosts[connection.ToLocationId]);
                     }
                 }
-                
-                visited.Add(currentId);
             }
             return new RouteResult(false, locationIds, currentBest, expandedCount);
         }
