@@ -47,14 +47,14 @@ namespace FrontierDispatch.Core
             return _heap[0];
         }
 
-        public T Dequeue()
+        public Entry Dequeue()
         {
             if (Count == 0)
             {
                 throw new InvalidOperationException("Queue is empty!");
             }
             
-            T minItem = _heap[0].Item; //Saving min
+            Entry minItem = _heap[0]; //Saving min
 
             if (Count > 1)
             {
