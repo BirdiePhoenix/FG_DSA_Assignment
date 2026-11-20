@@ -23,6 +23,18 @@ namespace FrontierDispatch.Core
             int currentBest = 0;
 
             lowestCosts[startLocationId] = 0;
+            if (!_world.Connections.TryGetValue(startLocationId, out var startList) || 
+                !_world.Connections.TryGetValue(goalLocationId, out var goalList))
+            {
+                return new RouteResult(false, locationIds, currentBest, expandedCount);
+            }
+            
+            if (startLocationId == goalLocationId)
+            {
+                locationIds = AddRoute(cameFrom, startLocationId, goalLocationId);
+                currentBest = lowestCosts[goalLocationId];
+                return new RouteResult(true, locationIds, currentBest, expandedCount);
+            }
             frontier.Enqueue(startLocationId, lowestCosts[startLocationId]);
             
             while (frontier.Count > 0)
