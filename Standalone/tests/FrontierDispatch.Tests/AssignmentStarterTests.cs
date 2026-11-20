@@ -14,10 +14,6 @@ namespace FrontierDispatch.Tests
     /// </summary>
     public sealed class AssignmentStarterTests
     {
-        // These tests document later assignment contracts without making the
-        // untouched baseline red. Remove Ignore when you reach the named phase.
-
-        //[Test, Ignore("Phase 3: enable when implementing the binary min-heap priority queue.")]
         [Test]
         public void PriorityQueue_EnqueueAndDequeue_ReturnsLowestPriorityFirst()
         {
@@ -54,9 +50,7 @@ namespace FrontierDispatch.Tests
 			Assert.That(queue.Dequeue().Item, Is.EqualTo("MidHighest"));
 			Assert.That(queue.Dequeue().Item, Is.EqualTo("Highest"));
 		}
-
-
-        //[Test, Ignore("Phase 4: enable when implementing Dijkstra route finding.")]
+		
         [Test]
         public void Dijkstra_StartEqualsGoal_ReturnsZeroCostRoute()
         {

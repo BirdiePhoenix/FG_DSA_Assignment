@@ -37,7 +37,7 @@ static void RunBaseline()
     const int iterations = 5000;
 
     var sw = Stopwatch.StartNew();
-
+    var byteCountPre = GC.GetAllocatedBytesForCurrentThread();
     for (int i = 0; i < iterations; ++i)
     {
         // Deterministically visit many different location IDs rather than
@@ -48,41 +48,11 @@ static void RunBaseline()
         checksum += location?.Id ?? 0;
         checksum += queries.FindOutgoingConnections(id).Count;
     }
-
+    var byteCountPost = GC.GetAllocatedBytesForCurrentThread();
+    var byteCountTotal = byteCountPost - byteCountPre;
     sw.Stop();
 
-    WorldData routeWorld = SampleWorldFactory.CreateSmall();
-    ReachabilityQuery reachability = new ReachabilityQuery(routeWorld);
-    int checksum2 = 0;
-
-    var swR = Stopwatch.StartNew();
-
-    for (int i = 0; i < iterations; ++i)
-    {
-        foreach (KeyValuePair<int, Location> location in routeWorld.Locations)
-        {
-            reachability.FindReachable(location.Key, 100);
-            checksum2++;
-        }
-    }
-    swR.Stop();
-
-    DijkstraRouteFinder dijkstra = new DijkstraRouteFinder(routeWorld);
-    int checksum3 = 0;
     
-    var swD = Stopwatch.StartNew();
-
-    for (int i = 0; i < iterations; ++i)
-    {
-        foreach (KeyValuePair<int, Location> location in routeWorld.Locations)
-        {
-            dijkstra.FindRoute(101, location.Key);
-            checksum3++;
-        }
-    }
-    
-    swD.Stop();
-
     Console.WriteLine("Baseline world-query workload");
     Console.WriteLine($"Locations: {world.Locations.Count}");
     Console.WriteLine($"Connections: {world.Connections.Count}");
@@ -90,9 +60,6 @@ static void RunBaseline()
     Console.WriteLine($"Elapsed world: {swM.ElapsedMilliseconds} ms");
     Console.WriteLine($"Elapsed: {sw.ElapsedMilliseconds} ms");
     Console.WriteLine($"Checksum: {checksum}");
-    Console.WriteLine($"Rout finding time: {swR.ElapsedMilliseconds} ms");
-    Console.WriteLine($"Rout checksum: {checksum2}");
-    Console.WriteLine($"Dijkstra time: {swD.ElapsedMilliseconds} ms");
-    Console.WriteLine($"Dijkstra checksum: {checksum3}");
+    Console.WriteLine($"Allocation: {byteCountPost} - {byteCountPre} = {byteCountTotal}");
     Console.WriteLine("Absolute time varies by machine. Keep this result for before/after comparison.");
 }
