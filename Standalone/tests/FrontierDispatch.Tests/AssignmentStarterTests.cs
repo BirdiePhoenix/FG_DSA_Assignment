@@ -40,15 +40,19 @@ namespace FrontierDispatch.Tests
 		}
 
 		[Test]
-		public void PriorityQueue_EnqueueDequeue_ReturnsNegativePriority()
+		public void PriorityQueue_EnqueueDequeue_ReturnsInRightOrder()
 		{
 			var queue = new MinPriorityQueue<string>();
-			queue.Enqueue("Positive1", 6);
-			queue.Enqueue("Positive2", 3);
-			queue.Enqueue("LowestNegative", -8);
-			queue.Enqueue("HighestNegative", -3);
-			queue.Enqueue("Positive3", 4);
-			Assert.That(queue.Dequeue().Item, Is.EqualTo("LowestNegative"));
+			queue.Enqueue("MidHighest", 6);
+			queue.Enqueue("MidLowest", 3);
+			queue.Enqueue("Highest", 8);
+			queue.Enqueue("Lowest", 2);
+			queue.Enqueue("Mid", 4);
+			Assert.That(queue.Dequeue().Item, Is.EqualTo("Lowest"));
+			Assert.That(queue.Dequeue().Item, Is.EqualTo("MidLowest"));
+			Assert.That(queue.Dequeue().Item, Is.EqualTo("Mid"));
+			Assert.That(queue.Dequeue().Item, Is.EqualTo("MidHighest"));
+			Assert.That(queue.Dequeue().Item, Is.EqualTo("Highest"));
 		}
 
 
@@ -81,6 +85,14 @@ namespace FrontierDispatch.Tests
             Assert.That(result.Found, Is.False);
 		}
 
+		[Test]
+		public void Dijkstra_StartNotFoundOrNoConnections()
+		{
+			var finder = new DijkstraRouteFinder(SampleWorldFactory.CreateSmall());
+			RouteResult result = finder.FindRoute(402, 101);
+			Assert.That(result.Found, Is.False);
+		}
+
 		[Test] 
         public void Reachability_ZeroBudget_IncludesStartAtZeroCost() 
         {
@@ -94,16 +106,16 @@ namespace FrontierDispatch.Tests
 		public void Reachability_IncludesRightValues()
 		{
 			var query = new ReachabilityQuery(SampleWorldFactory.CreateSmall());
-			var result = query.FindReachable(310, 10); 
-			Assert.That(result.Count.Equals(6));
+			var result = query.FindReachable(901, 8); 
+			Assert.That(result.Count, Is.EqualTo(4));
 		}
 
 		[Test]
-		public void Reachability_IncludesRightValues2()
+		public void Reachability_StartNotFoundOrNoConnections()
 		{
 			var query = new ReachabilityQuery(SampleWorldFactory.CreateSmall());
-			var secondResult = query.FindReachable(901, 8); 
-			Assert.That(secondResult.Count, Is.EqualTo(4));
+			var result = query.FindReachable(402, 100);
+			Assert.That(result.ContainsKey(402));
 		}
     }
 }

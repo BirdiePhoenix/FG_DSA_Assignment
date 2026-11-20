@@ -11,6 +11,10 @@ namespace FrontierDispatch.Core
 
         public void Enqueue(T item, int priority)
         {
+            if (priority < 0)
+            {
+                throw new InvalidOperationException("Priority can't be negative!");
+            }
             _heap.Add(new Entry(item, priority));
             if (Count > 1) //If only 1 Entry, skip
             {
