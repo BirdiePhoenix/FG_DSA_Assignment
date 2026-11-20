@@ -7,6 +7,7 @@ Keep this concise and specific to your implementation.
   Locations: 2500
   Connections: 9800
   Iterations: 5000
+  Elapsed world time: 1ms
   Elapsed: 417ms
   Checksum: 6,287,100
 - How are locations and connections represented in the baseline?
@@ -19,7 +20,6 @@ Keep this concise and specific to your implementation.
         - To get the locations and the connection for-loops are being used, which are O(n) operations. The location loop
           compares the id's and return the right location, while the connection loop is comparing fromLocationId's and adds
           all to a list.
-
 - Which operations appear frequent?
     - The comparing of location id and connection fromId.
 - Which operation(s) do you predict may scale poorly?
@@ -34,21 +34,33 @@ Keep this concise and specific to your implementation.
 Describe important changes/retained choices, operations affected, and time/memory trade-offs.
 
 - Changed Location storage from list to dictionary
-    - By changing the data structure to a dictionary, the operation of finding the location will go from an O(n) operation
-      to an O(1) operation.
+    - By changing the data structure to a dictionary, the operation of finding the location will go from an O(n)
+      operation to an O(1) operation.
     - After implementing this the baseline workload, elapsed time went down to 398ms.
 - Changed Connection storage from list to dictionary with lists
-    - Like with the change of location storage, the operation goes from O(n) to O(1). By sorting all the connections into
-      lists of FromLocationId I've removed the need of looping through all the connections during lookup, instead there'll
-      be smaller amount of data to work with and potentially loop through.
+    - Like with the change of location storage, the operation goes from O(n) to O(1). By sorting all the connections
+      into lists of FromLocationId I've removed the need of looping through all the connections during lookup, instead
+      there'll be smaller amount of data to work with and potentially loop through.
     - Here the elapsed time to look up went down to 0ms.
-    - One issue that can occure is if there's alot of connections, the size of the dictionary will grow quite big, but I
-      decided that this will be worth the cost of making the lookup instant instead.
+        - One issue that can occur is if there's a lot of connections. The size of the dictionary will grow quite large,
+          but since the world creation time only grew from 1 ms to 3 ms, this will be worth the cost of making the lookup
+          instant instead.
 
 ## 3. Algorithms and adaptation
 
 -MinHeap
 Explain your route finder at a useful high level and how the travel-budget query adapts the same ideas.
+
+- The DijkstraRoutFinder
+    - MinPriority queue
+    - Adds the starts connections
+    - If the to-locations lowest cost is bigger than the current calculated cost, update.
+    - Then dequeue the next id.
+    - Since previously visited locations will always have lower cost, the algorithm will never go back.
+    - Uses cameFrom to follow the route from the goal back to start, then reverses the list.
+- ReachabilityQuery
+    - Works similar to Dijkstra's, but it only updates the values in lowestCosts if the current cost is within the budget.
+    - Don't use a goal since we want to add all possible locations.
 
 ## 4. Complexity
 
