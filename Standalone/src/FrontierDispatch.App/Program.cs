@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using FrontierDispatch.Core;
 
@@ -36,7 +37,7 @@ static void RunBaseline()
     const int iterations = 5000;
 
     var sw = Stopwatch.StartNew();
-
+    var byteCountPre = GC.GetAllocatedBytesForCurrentThread();
     for (int i = 0; i < iterations; ++i)
     {
         // Deterministically visit many different location IDs rather than
@@ -47,9 +48,11 @@ static void RunBaseline()
         checksum += location?.Id ?? 0;
         checksum += queries.FindOutgoingConnections(id).Count;
     }
-
+    var byteCountPost = GC.GetAllocatedBytesForCurrentThread();
+    var byteCountTotal = byteCountPost - byteCountPre;
     sw.Stop();
 
+    
     Console.WriteLine("Baseline world-query workload");
     Console.WriteLine($"Locations: {world.Locations.Count}");
     Console.WriteLine($"Connections: {world.Connections.Count}");
@@ -57,5 +60,6 @@ static void RunBaseline()
     Console.WriteLine($"Elapsed world: {swM.ElapsedMilliseconds} ms");
     Console.WriteLine($"Elapsed: {sw.ElapsedMilliseconds} ms");
     Console.WriteLine($"Checksum: {checksum}");
+    Console.WriteLine($"Allocation: {byteCountPost} - {byteCountPre} = {byteCountTotal}");
     Console.WriteLine("Absolute time varies by machine. Keep this result for before/after comparison.");
 }

@@ -23,8 +23,8 @@ namespace FrontierDispatch.Core
             int currentBest = 0;
 
             lowestCosts[startLocationId] = 0;
-            if (!_world.Connections.TryGetValue(startLocationId, out var startList) || 
-                !_world.Connections.TryGetValue(goalLocationId, out var goalList))
+            if (!_world.Connections.ContainsKey(startLocationId) || 
+                !_world.Connections.ContainsKey(goalLocationId))
             {
                 return new RouteResult(false, locationIds, currentBest, expandedCount);
             }

@@ -20,7 +20,7 @@ namespace FrontierDispatch.Core
             MinPriorityQueue<int> frontier = new MinPriorityQueue<int>();
             
             lowestCosts[startLocationId] = 0;
-            if (!_world.Connections.TryGetValue(startLocationId, out var list))
+            if (!_world.Connections.ContainsKey(startLocationId))
             {
                 return lowestCosts;
             }
